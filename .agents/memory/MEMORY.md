@@ -1,3 +1,7 @@
 - [Sovereign Tailwind v3 setup](sovereign-tailwind.md) — uses PostCSS+tailwindcss, NOT @tailwindcss/vite; @import must precede @tailwind directives
 - [Sovereign tsconfig strict flags](sovereign-tsconfig.md) — must disable strictPropertyInitialization + strictNullChecks + others in sovereign tsconfig to avoid conflicts
 - [Sovereign Supabase patterns](sovereign-supabase.md) — lovable OAuth replaced with direct supabase.auth; signOut uses scope:local with fallback
+- [AI routes + heuristics fallback](ai-routes-heuristics.md) — Pilot/Scout/Classify in api-server; Gemini activates when GEMINI_API_KEY set, always falls back to smart heuristics so UI never breaks.
+- [Deal Card 6-field structure](deal-card-fields.md) — fields: deal_type, budget_range, payment_structure, timeline, commitments[], pitch ≤300. Extra fields packed into details JSON (no schema migration); parse with try/catch.
+- [api-server security stack](api-server-security.md) — helmet + express-rate-limit (general 120/min, ai 20/min, strict 10/min) + sanitiseBody + requestAudit; mounted in app.ts before routes.
+- [zod in api-server](zod-import.md) — import from "zod" not "zod/v4"; must be in api-server dependencies directly.
