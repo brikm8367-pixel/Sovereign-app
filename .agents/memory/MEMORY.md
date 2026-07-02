@@ -1,0 +1,3 @@
+- [Sovereign Tailwind v3 setup](sovereign-tailwind.md) — uses PostCSS+tailwindcss, NOT @tailwindcss/vite; @import must precede @tailwind directives
+- [Sovereign tsconfig strict flags](sovereign-tsconfig.md) — must disable strictPropertyInitialization + strictNullChecks + others in sovereign tsconfig to avoid conflicts
+- [Sovereign Supabase patterns](sovereign-supabase.md) — lovable OAuth replaced with direct supabase.auth; signOut uses scope:local with fallback

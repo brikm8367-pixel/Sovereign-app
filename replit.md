@@ -1,45 +1,66 @@
-# [Project name]
+# Sovereign
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A premium Arabic-first platform connecting celebrities with fans and business opportunities via end-to-end encrypted messaging, deal cards, and manager delegation.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/sovereign run dev` — run the frontend (port 23562)
+- `pnpm --filter @workspace/sovereign run typecheck` — TypeScript check
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React 18 + Vite + Tailwind CSS v3 (PostCSS, NOT @tailwindcss/vite)
+- Backend: Supabase (Auth, Database, Edge Functions, Realtime)
+- Routing: react-router-dom v6
+- UI: shadcn/ui components, framer-motion, sonner (toasts), vaul (drawer)
+- E2E encryption: custom Web Crypto API implementation
+- i18n: custom RTL/LTR context (Arabic default)
+- API: Express 5 (api-server artifact, used for future extensions)
+- DB: PostgreSQL + Drizzle ORM (api-server only)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/sovereign/src/` — main React app
+- `artifacts/sovereign/src/hooks/` — useAuth, useDealCards, useE2E, etc.
+- `artifacts/sovereign/src/utils/e2eManager.ts` — E2E key management with retry
+- `artifacts/sovereign/src/lib/appUrl.ts` — public URL builder (reads VITE_APP_BASE_URL)
+- `artifacts/sovereign/src/components/profile/` — InviteManagerDialog, KillSwitch, etc.
+- `artifacts/sovereign/supabase/functions/` — Edge function source (deploy via Supabase CLI)
+- `artifacts/sovereign/supabase/migrations/` — DB migration SQL files
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Supabase is the source of truth for auth and data; no custom auth server
+- E2E keys: one row per device in `device_keys` table; profiles.public_key kept for backward compat
+- Manager invitation flow: password-verified edge function (`create-manager-invite`) creates short-lived tokens; celebrity must confirm password before any invite is issued
+- Kill Switch: edge function `manager-kill-switch` immediately revokes manager access
+- Deal Cards: filtered client-side by `archived_at`, `visible_to_celebrity`, sticky/golden-hour priority sort
+- `@lovable.dev/cloud-auth-js` replaced with direct Supabase OAuth (Google/Apple via `supabase.auth.signInWithOAuth`)
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Sovereign lets public figures (celebrities) receive, manage, and respond to business deal proposals (Deal Cards) from fans and agencies. Communication is end-to-end encrypted. Celebrities can delegate inbox management to a trusted manager via a secure invitation system, and revoke access via Kill Switch.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Arabic-first RTL UI; English fallback supported
+- Keep strict TypeScript flags off (`strict: false`, `strictNullChecks: false`) since the codebase uses `as any` casts for Supabase dynamic tables
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Tailwind CSS v3: uses `postcss.config.cjs` + `tailwindcss` plugin, NOT `@tailwindcss/vite`. Do NOT add `@tailwindcss/vite` to vite.config.ts
+- `@import` in CSS must come BEFORE `@tailwind` directives (PostCSS rule)
+- `vaul` package must be installed for the Drawer shadcn/ui component
+- Supabase edge functions must be deployed via `supabase functions deploy` from the CLI — they cannot be deployed from Replit directly
+- `VITE_APP_BASE_URL` env var controls the public share URL; Replit dev domain is excluded from share links (uses fallback public URL)
+- `strictPropertyInitialization: false` must be set in sovereign tsconfig.json to avoid conflict with base tsconfig
+- `signOut({ scope: 'local' })` used to avoid Supabase network errors on sign-out; falls back to full signOut if it fails
 
 ## Pointers
 
 - See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Supabase project ID: dxfcxxiysntgxstmyxqz

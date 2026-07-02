@@ -1,0 +1,185 @@
+import { Translations } from './types';
+
+export const es: Translations = {
+  header: {
+    features: 'Características',
+    howItWorks: 'Cómo funciona',
+    categories: 'Niveles de acceso',
+    login: 'Iniciar sesión',
+    getStarted: 'Comenzar',
+  },
+  hero: {
+    badge: 'Control. Claridad. Paz.',
+    title1: 'Decide quién tiene acceso',
+    title2: 'a ti — y por qué',
+    subtitle: 'No todos merecen tu atención. Sovereign es tu portal para controlar quién puede contactarte.',
+    cta1: 'Toma el Control',
+    cta2: 'Ver cómo funciona',
+    trust1: 'Tu Protección',
+    trust2: 'Control Total',
+    trust3: 'Experiencia Fluida',
+  },
+  categories: {
+    title1: 'Tres niveles de acceso.',
+    title2: 'Tú decides.',
+    subtitle: 'Define quién puede interrumpirte y cuándo',
+    work: {
+      title: 'Acceso Trabajo',
+      description: 'Personas autorizadas a interrumpir tu trabajo: socios, clientes, oportunidades',
+    },
+    audience: {
+      title: 'Acceso Audiencia',
+      description: 'Personas que pueden contactarte sin molestarte: seguidores, fans',
+    },
+    others: {
+      title: 'Acceso Personal',
+      description: 'Personas que apruebas personalmente: familia, amigos cercanos',
+    },
+  },
+  features: {
+    title1: 'Tú decides',
+    title2: 'quién te contacta',
+    subtitle: 'Control total sobre tu acceso, sin explicaciones complejas',
+    feature1: {
+      title: 'Establece tus límites',
+      description: 'Decide cuántos mensajes quieres de cada nivel',
+    },
+    feature2: {
+      title: 'Clasificación automática',
+      description: 'Cada mensaje va automáticamente al lugar correcto',
+    },
+    feature3: {
+      title: 'Protege tu tiempo',
+      description: 'Solo los mensajes importantes te llegan, el resto espera',
+    },
+    feature4: {
+      title: 'Privacidad total',
+      description: 'Tus mensajes están completamente protegidos',
+    },
+    notification: {
+      title: 'Mensaje importante',
+      subtitle: 'Acceso Trabajo',
+    },
+  },
+  howItWorks: {
+    title1: '¿Cómo',
+    title2: 'tomas el control?',
+    subtitle: 'Tres pasos para recuperar el control de tu acceso',
+    step1: {
+      title: 'Define tus niveles',
+      description: 'Decide quién merece acceso a ti y por qué',
+    },
+    step2: {
+      title: 'Deja que Sovereign trabaje',
+      description: 'Cada mensaje se dirige automáticamente al nivel correcto',
+    },
+    step3: {
+      title: 'Comunica inteligentemente',
+      description: 'Responde primero lo que importa, el resto en tus términos',
+    },
+  },
+  cta: {
+    badge: 'Gratis para empezar',
+    title: 'Recupera el Control',
+    subtitle: 'Decide quién te contacta. Ahora.',
+    button1: 'Toma el Control',
+    button2: 'Saber más',
+  },
+  footer: {
+    description: 'Tu portal para controlar quién te contacta. Control. Claridad. Paz.',
+    quickLinks: 'Enlaces rápidos',
+    home: 'Inicio',
+    features: 'Características',
+    howItWorks: 'Cómo funciona',
+    pricing: 'Precios',
+    contactUs: 'Contáctanos',
+    copyright: '© 2024 Sovereign. Todos los derechos reservados.',
+  },
+  demoModal: {
+    persona: {
+      name: 'Sarah Ahmed',
+      role: 'Influencer y Emprendedora',
+      followers: '500K',
+      quote: 'Antes de Sovereign, perdía mensajes importantes en el ruido. Ahora yo decido quién me contacta.',
+    },
+    categories: {
+      work: {
+        title: 'Acceso Trabajo',
+        messages: {
+          sender1: 'Nike Company',
+          preview1: 'Nos gustaría colaborar contigo en nuestra nueva campaña...',
+          sender2: 'Agencia de Marketing',
+          preview2: 'Oferta de asociación exclusiva por 6 meses...',
+          sender3: 'Revista Forbes',
+          preview3: 'Invitación a entrevista sobre tu éxito...',
+        },
+        count: 'de',
+      },
+      audience: {
+        title: 'Acceso Audiencia',
+        messages: {
+          sender1: 'Ahmed Mohammed',
+          preview1: '¡Tu contenido es increíble! ¿Cómo empezaste tu viaje?',
+          sender2: 'Nora Ali',
+          preview2: 'Gracias por los consejos del último video 💕',
+          sender3: 'Khalid Saeed',
+          preview3: '¡Eres una inspiración para mí!',
+        },
+        count: 'de',
+      },
+      closeOnes: {
+        title: 'Acceso Personal',
+        messages: {
+          sender1: 'Mamá ❤️',
+          preview1: '¡No olvides el almuerzo del viernes!',
+          sender2: 'Mi amiga Mona',
+          preview2: '¿Cuándo nos vemos? ¡Te extraño!',
+          sender3: 'Mi esposo',
+          preview3: 'Te amo, no llegues tarde 💑',
+        },
+        count: 'de',
+      },
+    },
+    stats: {
+      todayMessages: 'Mensajes de hoy',
+      importantMessages: 'Mensajes importantes',
+      timeSaved: 'Tiempo ahorrado',
+      timeSavedValue: '3 horas',
+    },
+    organizedInbox: 'Panel de control de',
+    ofMessages: 'mensajes',
+    footer: 'Así es como Sarah controla quién la contacta.',
+    tryNow: '¡Toma el Control!',
+    timeAgo: {
+      minutes: 'hace min',
+      hour: 'hace 1 hora',
+      hours: 'hace horas',
+    },
+  },
+  auth: {
+    login: 'Iniciar sesión',
+    signup: 'Registrarse',
+    email: 'Correo electrónico',
+    password: 'Contraseña',
+    username: 'Nombre de usuario',
+    displayName: 'Nombre para mostrar',
+    loginButton: 'Entrar',
+    signupButton: 'Crear cuenta',
+    noAccount: '¿No tienes cuenta?',
+    hasAccount: '¿Ya tienes cuenta?',
+    forgotPassword: '¿Olvidaste tu contraseña?',
+    or: 'o',
+    errors: {
+      invalidEmail: 'Por favor ingresa un correo válido',
+      weakPassword: 'La contraseña debe tener al menos 6 caracteres',
+      userExists: 'Ya existe una cuenta con este correo',
+      invalidCredentials: 'Correo o contraseña inválidos',
+      generic: 'Ocurrió un error. Por favor intenta de nuevo.',
+    },
+  },
+  search: {
+    placeholder: 'Buscar usuarios...',
+    noResults: 'No se encontraron usuarios',
+    searching: 'Buscando...',
+  },
+};

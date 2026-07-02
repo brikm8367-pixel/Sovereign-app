@@ -1,0 +1,185 @@
+import { Translations } from './types';
+
+export const en: Translations = {
+  header: {
+    features: 'Features',
+    howItWorks: 'How it Works',
+    categories: 'Access Levels',
+    login: 'Log in',
+    getStarted: 'Get Started',
+  },
+  hero: {
+    badge: 'Control. Clarity. Peace.',
+    title1: 'Decide who gets access',
+    title2: 'to you — and why',
+    subtitle: 'Not everyone deserves your attention. Sovereign is your gateway to control who can reach you.',
+    cta1: 'Take Control',
+    cta2: 'See How it Works',
+    trust1: 'Your Protection First',
+    trust2: 'Full Control',
+    trust3: 'Seamless Experience',
+  },
+  categories: {
+    title1: 'Three access levels.',
+    title2: 'You decide.',
+    subtitle: 'Define who can interrupt you and when',
+    work: {
+      title: 'Work Access',
+      description: 'People allowed to interrupt your work: partners, clients, opportunities',
+    },
+    audience: {
+      title: 'Audience Access',
+      description: 'People who can reach you without disruption: followers, fans',
+    },
+    others: {
+      title: 'Personal Access',
+      description: 'People you personally approve: family, close friends',
+    },
+  },
+  features: {
+    title1: 'You decide',
+    title2: 'who reaches you',
+    subtitle: 'Full control over your access, no complex explanations',
+    feature1: {
+      title: 'Set your limits',
+      description: 'Decide how many messages you want from each level',
+    },
+    feature2: {
+      title: 'Auto-sorting',
+      description: 'Every message goes to the right place automatically',
+    },
+    feature3: {
+      title: 'Protect your time',
+      description: 'Only important messages reach you, the rest waits',
+    },
+    feature4: {
+      title: 'Complete privacy',
+      description: 'Your messages are fully protected',
+    },
+    notification: {
+      title: 'Important message',
+      subtitle: 'Work Access',
+    },
+  },
+  howItWorks: {
+    title1: 'How do you',
+    title2: 'take control?',
+    subtitle: 'Three steps to reclaim control over your access',
+    step1: {
+      title: 'Define your levels',
+      description: 'Decide who deserves access to you and why',
+    },
+    step2: {
+      title: 'Let Sovereign work',
+      description: 'Every message is automatically routed to the right level',
+    },
+    step3: {
+      title: 'Communicate smart',
+      description: 'Reply to what matters first, the rest on your terms',
+    },
+  },
+  cta: {
+    badge: 'Free to start',
+    title: 'Reclaim Control',
+    subtitle: 'Decide who reaches you. Now.',
+    button1: 'Take Control',
+    button2: 'Learn More',
+  },
+  footer: {
+    description: 'Your gateway to control who reaches you. Control. Clarity. Peace.',
+    quickLinks: 'Quick Links',
+    home: 'Home',
+    features: 'Features',
+    howItWorks: 'How it Works',
+    pricing: 'Pricing',
+    contactUs: 'Contact Us',
+    copyright: '© 2024 Sovereign. All rights reserved.',
+  },
+  demoModal: {
+    persona: {
+      name: 'Sarah Ahmed',
+      role: 'Influencer & Entrepreneur',
+      followers: '500K',
+      quote: 'Before Sovereign, I was losing important messages in the noise. Now I decide who reaches me.',
+    },
+    categories: {
+      work: {
+        title: 'Work Access',
+        messages: {
+          sender1: 'Nike Company',
+          preview1: 'We would like to collaborate with you on our new campaign...',
+          sender2: 'Marketing Agency',
+          preview2: 'Exclusive partnership offer for 6 months...',
+          sender3: 'Forbes Magazine',
+          preview3: 'Interview invitation about your success...',
+        },
+        count: 'of',
+      },
+      audience: {
+        title: 'Audience Access',
+        messages: {
+          sender1: 'Ahmed Mohammed',
+          preview1: 'Your content is amazing! How did you start your journey?',
+          sender2: 'Nora Ali',
+          preview2: 'Thanks for the tips in the last video 💕',
+          sender3: 'Khalid Saeed',
+          preview3: 'You are an inspiration to me!',
+        },
+        count: 'of',
+      },
+      closeOnes: {
+        title: 'Personal Access',
+        messages: {
+          sender1: 'Mom ❤️',
+          preview1: "Don't forget lunch on Friday!",
+          sender2: 'My friend Mona',
+          preview2: 'When do we meet? I miss you!',
+          sender3: 'My husband',
+          preview3: "Love you, don't be late 💑",
+        },
+        count: 'of',
+      },
+    },
+    stats: {
+      todayMessages: "Today's messages",
+      importantMessages: 'Important messages',
+      timeSaved: 'Time saved',
+      timeSavedValue: '3 hours',
+    },
+    organizedInbox: "Control panel for",
+    ofMessages: 'messages',
+    footer: 'This is how Sarah controls who reaches her.',
+    tryNow: 'Take Control Now!',
+    timeAgo: {
+      minutes: 'min ago',
+      hour: '1 hour ago',
+      hours: 'hours ago',
+    },
+  },
+  auth: {
+    login: 'Log In',
+    signup: 'Sign Up',
+    email: 'Email',
+    password: 'Password',
+    username: 'Username',
+    displayName: 'Display Name',
+    loginButton: 'Log In',
+    signupButton: 'Create Account',
+    noAccount: "Don't have an account?",
+    hasAccount: 'Already have an account?',
+    forgotPassword: 'Forgot Password?',
+    or: 'or',
+    errors: {
+      invalidEmail: 'Please enter a valid email address',
+      weakPassword: 'Password must be at least 6 characters',
+      userExists: 'An account with this email already exists',
+      invalidCredentials: 'Invalid email or password',
+      generic: 'An error occurred. Please try again.',
+    },
+  },
+  search: {
+    placeholder: 'Search users...',
+    noResults: 'No users found',
+    searching: 'Searching...',
+  },
+};

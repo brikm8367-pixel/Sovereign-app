@@ -1,0 +1,185 @@
+import { Translations } from './types';
+
+export const ar: Translations = {
+  header: {
+    features: 'المميزات',
+    howItWorks: 'كيف يعمل',
+    categories: 'مستويات الوصول',
+    login: 'تسجيل الدخول',
+    getStarted: 'ابدأ الآن',
+  },
+  hero: {
+    badge: 'تحكم. وضوح. راحة.',
+    title1: 'قرر من يصل إليك',
+    title2: 'ولماذا',
+    subtitle: 'ليس كل شخص يستحق انتباهك. Sovereign بوابتك للتحكم في من يمكنه الوصول إليك.',
+    cta1: 'تحكّم الآن',
+    cta2: 'شاهد كيف يعمل',
+    trust1: 'حمايتك أولاً',
+    trust2: 'تحكم كامل',
+    trust3: 'تجربة سلسة',
+  },
+  categories: {
+    title1: 'ثلاثة مستويات.',
+    title2: 'أنت تقرر.',
+    subtitle: 'حدد من يمكنه مقاطعتك ومتى',
+    work: {
+      title: 'وصول العمل',
+      description: 'الأشخاص المسموح لهم بمقاطعة عملك: شركاء، عملاء، فرص',
+    },
+    audience: {
+      title: 'وصول الجمهور',
+      description: 'الأشخاص الذين يمكنهم التواصل دون إزعاج: متابعون، معجبون',
+    },
+    others: {
+      title: 'وصول شخصي',
+      description: 'الأشخاص الذين توافق عليهم شخصياً: العائلة، الأصدقاء المقربون',
+    },
+  },
+  features: {
+    title1: 'أنت تقرر',
+    title2: 'من يصل إليك',
+    subtitle: 'تحكم كامل في وصولك، بدون شرح معقد',
+    feature1: {
+      title: 'حدد حدودك',
+      description: 'قرر كم رسالة تريد استقبالها من كل مستوى',
+    },
+    feature2: {
+      title: 'فرز تلقائي',
+      description: 'كل رسالة تذهب لمكانها الصحيح تلقائياً',
+    },
+    feature3: {
+      title: 'احمِ وقتك',
+      description: 'الرسائل المهمة فقط تصلك، الباقي ينتظر',
+    },
+    feature4: {
+      title: 'خصوصية تامة',
+      description: 'رسائلك محمية بالكامل',
+    },
+    notification: {
+      title: 'رسالة مهمة',
+      subtitle: 'وصول العمل',
+    },
+  },
+  howItWorks: {
+    title1: 'كيف',
+    title2: 'تتحكم؟',
+    subtitle: 'ثلاث خطوات لاستعادة السيطرة على وصولك',
+    step1: {
+      title: 'حدد مستوياتك',
+      description: 'قرر من يستحق الوصول إليك ولماذا',
+    },
+    step2: {
+      title: 'دع Sovereign يعمل',
+      description: 'كل رسالة تُوجّه تلقائياً للمستوى الصحيح',
+    },
+    step3: {
+      title: 'تواصل بذكاء',
+      description: 'رد على المهم أولاً، الباقي بوقتك',
+    },
+  },
+  cta: {
+    badge: 'مجاني للبدء',
+    title: 'استعد السيطرة',
+    subtitle: 'قرر من يصل إليك. الآن.',
+    button1: 'تحكّم الآن',
+    button2: 'تعرف أكثر',
+  },
+  footer: {
+    description: 'بوابتك للتحكم في من يصل إليك. تحكم. وضوح. راحة.',
+    quickLinks: 'روابط سريعة',
+    home: 'الرئيسية',
+    features: 'المميزات',
+    howItWorks: 'كيف يعمل',
+    pricing: 'الأسعار',
+    contactUs: 'تواصل معنا',
+    copyright: '© 2024 Sovereign. جميع الحقوق محفوظة.',
+  },
+  demoModal: {
+    persona: {
+      name: 'سارة الأحمد',
+      role: 'مؤثرة ورائدة أعمال',
+      followers: '500K',
+      quote: 'قبل Sovereign كنت أفقد الرسائل المهمة وسط الضوضاء. الآن أنا أقرر من يصل إليّ.',
+    },
+    categories: {
+      work: {
+        title: 'وصول العمل',
+        messages: {
+          sender1: 'شركة Nike',
+          preview1: 'نود التعاون معك في حملتنا الجديدة...',
+          sender2: 'وكالة تسويق',
+          preview2: 'عرض شراكة حصري لمدة 6 أشهر...',
+          sender3: 'مجلة Forbes',
+          preview3: 'دعوة لمقابلة حول نجاحك...',
+        },
+        count: 'من',
+      },
+      audience: {
+        title: 'وصول الجمهور',
+        messages: {
+          sender1: 'أحمد محمد',
+          preview1: 'محتواك رائع! كيف بدأت رحلتك؟',
+          sender2: 'نورة علي',
+          preview2: 'شكراً على النصائح في الفيديو الأخير 💕',
+          sender3: 'خالد السعيد',
+          preview3: 'أنت مصدر إلهام لي!',
+        },
+        count: 'من',
+      },
+      closeOnes: {
+        title: 'وصول شخصي',
+        messages: {
+          sender1: 'ماما ❤️',
+          preview1: 'لا تنسي الغداء يوم الجمعة!',
+          sender2: 'صديقتي منى',
+          preview2: 'متى نتقابل؟ اشتقتلك!',
+          sender3: 'زوجي',
+          preview3: 'أحبك، لا تتأخري 💑',
+        },
+        count: 'من',
+      },
+    },
+    stats: {
+      todayMessages: 'رسائل اليوم',
+      importantMessages: 'رسائل مهمة',
+      timeSaved: 'وقت موفر',
+      timeSavedValue: '3 ساعات',
+    },
+    organizedInbox: 'لوحة تحكم',
+    ofMessages: 'رسالة',
+    footer: 'هكذا تتحكم سارة في من يصل إليها.',
+    tryNow: 'تحكّم الآن!',
+    timeAgo: {
+      minutes: 'منذ دقائق',
+      hour: 'منذ ساعة',
+      hours: 'منذ ساعات',
+    },
+  },
+  auth: {
+    login: 'تسجيل الدخول',
+    signup: 'إنشاء حساب',
+    email: 'البريد الإلكتروني',
+    password: 'كلمة المرور',
+    username: 'اسم المستخدم',
+    displayName: 'الاسم الظاهر',
+    loginButton: 'دخول',
+    signupButton: 'إنشاء حساب',
+    noAccount: 'ليس لديك حساب؟',
+    hasAccount: 'لديك حساب بالفعل؟',
+    forgotPassword: 'نسيت كلمة المرور؟',
+    or: 'أو',
+    errors: {
+      invalidEmail: 'الرجاء إدخال بريد إلكتروني صحيح',
+      weakPassword: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
+      userExists: 'يوجد حساب بهذا البريد الإلكتروني',
+      invalidCredentials: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+      generic: 'حدث خطأ. يرجى المحاولة مرة أخرى.',
+    },
+  },
+  search: {
+    placeholder: 'البحث عن مستخدمين...',
+    noResults: 'لم يتم العثور على مستخدمين',
+    searching: 'جاري البحث...',
+  },
+};

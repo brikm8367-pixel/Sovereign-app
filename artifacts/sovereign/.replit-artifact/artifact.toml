@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Sovereign App"
+version = "1.0.0"
+id = "artifacts/sovereign"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23562
+
+[services.development]
+run = "pnpm --filter @workspace/sovereign run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sovereign", "run", "build" ]
+publicDir = "artifacts/sovereign/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23562"
+BASE_PATH = "/"

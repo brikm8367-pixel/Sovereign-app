@@ -1,0 +1,218 @@
+✅ وثيقة تنفيذية شاملة لإصلاح جميع المشاكل في تطبيق Sovereign
+
+التاريخ: 20 يونيو 2026  
+
+الموجهة إلى: المطور  
+
+الغرض: إصلاح جذري ومنهجي لكل المشاكل المكتشفة، مع ترتيب أولويات واضح وقواعد تنفيذ صارمة.
+
+---
+
+الأولويات العامة للإصلاح (يجب اتباعها بالترتيب)
+
+1. الأمان والثغرات الحرجة (أولوية قصوى)
+
+2. الاستقرار والظهور الصحيح للميزات 
+
+3. الموثوقية (Reliability) والتجربة
+
+4. الجودة والصيانة (TypeScript, RLS, Logging, Tests)
+
+---
+
+1. Manager Invitation Flow (ثغرة أمنية حرجة)
+
+المشكلة:  
+
+يوجد طريقة تسمح لأي شخص يعرف `celebrity_id` بأن يصبح وكيلاً فوراً عبر `JoinManager.tsx` باستخدام `upsert` مباشر، بدون تحقق أو رمز.
+
+لماذا خطيرة؟  
+
+تسمح بالاستيلاء على صلاحيات الوكيل، الوصول إلى Deal Cards وعروض العمل، وانتهاك خصوصية المشاهير.
+
+الحل الجذري:
+
+- إيقاف الـ upsert المباشر في `src/pages/JoinManager.tsx` فوراً.
+
+- كل عملية إنشاء أو تفعيل دعوة يجب أن تمر عبر Edge Functions فقط (server-side).
+
+- استخدام نموذج Token + Code (8 أحرف) مع صلاحية محدودة (مثلاً 24 ساعة).
+
+- تطبيق Rate Limiting + Logging + Failed Attempts Counter.
+
+- RLS صارمة تحول دون أي كتابة مباشرة من العميل.
+
+الملفات المطلوبة:
+
+- Edge Function: `create-manager-invitation`
+
+- Edge Function: `redeem-manager-invite` (مع transaction كامل)
+
+- Migration: RLS Policies على `manager_invitations` و `manager_links`
+
+- تعديل: `JoinManager.tsx` + `RedeemManagerInvite.tsx`
+
+- إضافة: `ManagerInvitationsPanel` في Profile
+
+---
+
+2. Deal Card Visibility & Golden Hour
+
+المشكلة:  
+
+Deal Card تختفي تلقائياً بعد أول رد (إلا إذا كانت Golden Hour نشطة)، مما يسبب فقدان السياق والارتباك للمشهور والوكيل والمرسل.
+
+لماذا مشكلة؟  
+
+تقلل من الثقة والكفاءة، وتجعل تتبع الصفقات صعباً.
+
+الحل الجذري:
+
+- أضف الأعمدة التالية إلى جدول `deal_cards`:
+
+  - `sticky_until` (timestamp)
+
+  - `archived_at` (timestamp)
+
+  - `visible_to_celebrity` (boolean, default true)
+
+- غيّر منطق الظهور في `useDealCards.tsx` و `BusinessDeals.tsx` ليأخذ بعين الاعتبار:
+
+  - Pending → مرئية
+
+  - Golden Hour نشطة → مرئية
+
+  - `sticky_until` أكبر من الآن → مرئية
+
+  - `archived_at` فارغ → مرئية
+
+- أضف زر "أرشفة" للمشهور/الوكيل.
+
+---
+
+3. E2EE Decryption Failures
+
+المشكلة:  
+
+الرسائل تظهر أحياناً مشفرة (`🔒`) أو لا تظهر، بسبب مشاكل في إدارة المفاتيح (خاصة عند جهاز جديد أو مسح بيانات).
+
+لماذا مهم؟  
+
+يفقد المستخدم الثقة في الخصوصية والموثوقية.
+
+الحل الجذري:
+
+- أضف نظام Encrypted Key Backup (نسخ احتياطي مشفر) مخزن على الخادم.
+
+- أضف رسائل خطأ واضحة + Retry Mechanism.
+
+- أضف Recovery Flow باستخدام رمز استرداد أو إعادة تحقق.
+
+- تحسين `e2eManager.ts` و `encryption.ts`.
+
+---
+
+4. NanoID و Base URL للروابط
+
+المشكلة:  
+
+معظم الروابط تستخدم `window.location.origin`، مما يؤدي إلى preview links أو vercel links غير مرغوبة.
+
+الحل:
+
+- أضف متغير بيئي مركزي: `VITE_APP_BASE_URL=https://sovereign-app.lovable.app`
+
+- استخدمه في كل مكان يتم فيه بناء روابط (Profile, Invitations, Emails, Edge Functions).
+
+---
+
+5. TypeScript Configuration
+
+المشكلة:  
+
+الإعدادات مخففة (`noImplicitAny: false`, `strictNullChecks: false`، إلخ) + استخدام `as any` كثيراً.
+
+الحل:
+
+- فعّل الإعدادات الصارمة تدريجياً في `tsconfig.json`.
+
+- استبدل كل `as any` بأنواع صحيحة.
+
+- قم بمراجعة شاملة بعد التفعيل.
+
+---
+
+6. RLS Policies وأمان قاعدة البيانات
+
+المشكلة:  
+
+السياسات غير موثقة جيداً داخل المستودع، مما يجعل التدقيق صعباً.
+
+الحل:
+
+- أنشئ ملفات Migration منفصلة تحتوي على كل RLS Policies.
+
+- ضمن أن كل جداول حساسة (`manager_links`, `manager_invitations`, `messages`, `direct_access`, `deal_cards`, `device_keys`) محمية بـ RLS صارمة.
+
+- كل عمليات الكتابة الحساسة تمر عبر Edge Functions.
+
+---
+
+7. Kill Switch + Activity Log
+
+المشكلة:  
+
+موجودة في قاعدة البيانات لكن غير مكتملة في الواجهة والتنفيذ.
+
+الحل:
+
+- أضف زر Kill Switch واضح ومحمي (يتطلب كلمة مرور) في واجهة المشهور.
+
+- ضمن أن كل عملية (دعوة، قبول، رفض، تعديل) تسجل في `manager_activity_log`.
+
+- اجعل السجل مرئياً للمشهور فقط.
+
+---
+
+8. قواعد تنفيذ عامة يجب اتباعها في كل الإصلاحات
+
+- Backend First: Edge Functions + Database + RLS قبل أي تغيير في الواجهة.
+
+- Security First: كل عملية حساسة تمر عبر الخادم.
+
+- No Direct Client Writes: ممنوع upsert أو insert مباشر على جداول حساسة من العميل.
+
+- Logging: سجّل كل عملية مهمة في `manager_activity_log`.
+
+- Testing: أضف اختبارات أساسية لكل Flow جديد.
+
+- Documentation: أدرج كل Migration و Edge Function في المستودع.
+
+- Base URL: استخدم `VITE_APP_BASE_URL` في كل الروابط.
+
+إغلاق Buckets العامة — اجعل كل buckets خاصة، واستخدم signed URLs مؤقتة فقط.
+
+تقوية Edge Functions و SECURITY DEFINER — أضف تحقق user ID + role قبل أي عملية حساسة.
+
+عزل MCP بشكل صارم — كل استعلام يجب أن يكون في sandbox معزول، والسياق يُحذف فور الانتهاء. Private Box ممنوع تمامًا.
+
+تقوية Manager Invitation — الكود single-use + short-lived (10 دقائق). أضف Passkey أو تحقق قوي.
+
+إضافة Monitoring و Logging — سجل كل عملية حساسة، وأضف alerts للسلوك غير الطبيعي.
+
+Rate Limiting على كل الـ APIs الحساسة.
+
+Audit أمني شامل بعد الانتهاء.
+
+أصبح تسجيل الدخول واصلح حذف الحساب واصلح حذف الحساب نهائيا واصلح إعادة الحساب بعد حذفه لأنه توجد اخطاء كثيرة في كل ماله علاقة بتسجيل الدخول والخروج 
+
+هذه الأولوية المطلقة الآن.
+لا ننتقل إلى أي ميزة جديدة حتى تنتهي من هذا.
+
+أخبرني عندما تنتهي من كل نقطة.
+
+---
+
+الطلب النهائي منك (المطور):
+
+نفذ بدقة وجودة عالية دون اخطاء اريد نزع هذه المشاكل بطريقة جذرية لااريدها ان تكون مجدد ولا اريد اخطاء جديدة ناتجة عن اي تعديل  وانت لا اريدك ان تخطئ مثل هذه الأخطاء ولاتركز على سرعة الانتهاء ركز على جودة وسلامة الكود لاتنسى Frontend أيضا

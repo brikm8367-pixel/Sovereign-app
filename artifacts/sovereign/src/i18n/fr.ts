@@ -1,0 +1,185 @@
+import { Translations } from './types';
+
+export const fr: Translations = {
+  header: {
+    features: 'Fonctionnalités',
+    howItWorks: 'Comment ça marche',
+    categories: "Niveaux d'accès",
+    login: 'Connexion',
+    getStarted: 'Commencer',
+  },
+  hero: {
+    badge: 'Contrôle. Clarté. Sérénité.',
+    title1: "Décidez qui a accès",
+    title2: 'à vous — et pourquoi',
+    subtitle: "Tout le monde ne mérite pas votre attention. Sovereign est votre portail pour contrôler qui peut vous atteindre.",
+    cta1: 'Prenez le Contrôle',
+    cta2: 'Voir comment ça marche',
+    trust1: 'Votre Protection',
+    trust2: 'Contrôle Total',
+    trust3: 'Expérience Fluide',
+  },
+  categories: {
+    title1: "Trois niveaux d'accès.",
+    title2: 'Vous décidez.',
+    subtitle: 'Définissez qui peut vous interrompre et quand',
+    work: {
+      title: 'Accès Travail',
+      description: 'Les personnes autorisées à interrompre votre travail: partenaires, clients, opportunités',
+    },
+    audience: {
+      title: 'Accès Audience',
+      description: 'Les personnes qui peuvent vous contacter sans perturbation: abonnés, fans',
+    },
+    others: {
+      title: 'Accès Personnel',
+      description: 'Les personnes que vous approuvez personnellement: famille, amis proches',
+    },
+  },
+  features: {
+    title1: 'Vous décidez',
+    title2: 'qui vous atteint',
+    subtitle: 'Contrôle total sur votre accès, sans explications complexes',
+    feature1: {
+      title: 'Fixez vos limites',
+      description: 'Décidez combien de messages vous voulez de chaque niveau',
+    },
+    feature2: {
+      title: 'Tri automatique',
+      description: 'Chaque message va automatiquement au bon endroit',
+    },
+    feature3: {
+      title: 'Protégez votre temps',
+      description: 'Seuls les messages importants vous parviennent, le reste attend',
+    },
+    feature4: {
+      title: 'Confidentialité totale',
+      description: 'Vos messages sont entièrement protégés',
+    },
+    notification: {
+      title: 'Message important',
+      subtitle: 'Accès Travail',
+    },
+  },
+  howItWorks: {
+    title1: 'Comment',
+    title2: 'prenez-vous le contrôle?',
+    subtitle: 'Trois étapes pour reprendre le contrôle de votre accès',
+    step1: {
+      title: 'Définissez vos niveaux',
+      description: "Décidez qui mérite l'accès à vous et pourquoi",
+    },
+    step2: {
+      title: 'Laissez Sovereign travailler',
+      description: 'Chaque message est automatiquement acheminé au bon niveau',
+    },
+    step3: {
+      title: 'Communiquez intelligemment',
+      description: "Répondez d'abord à ce qui compte, le reste selon vos termes",
+    },
+  },
+  cta: {
+    badge: 'Gratuit pour commencer',
+    title: 'Reprenez le Contrôle',
+    subtitle: 'Décidez qui vous atteint. Maintenant.',
+    button1: 'Prenez le Contrôle',
+    button2: 'En savoir plus',
+  },
+  footer: {
+    description: 'Votre portail pour contrôler qui vous atteint. Contrôle. Clarté. Sérénité.',
+    quickLinks: 'Liens rapides',
+    home: 'Accueil',
+    features: 'Fonctionnalités',
+    howItWorks: 'Comment ça marche',
+    pricing: 'Tarifs',
+    contactUs: 'Contactez-nous',
+    copyright: '© 2024 Sovereign. Tous droits réservés.',
+  },
+  demoModal: {
+    persona: {
+      name: 'Sarah Ahmed',
+      role: 'Influenceuse & Entrepreneure',
+      followers: '500K',
+      quote: "Avant Sovereign, je perdais les messages importants dans le bruit. Maintenant, c'est moi qui décide qui me contacte.",
+    },
+    categories: {
+      work: {
+        title: 'Accès Travail',
+        messages: {
+          sender1: 'Nike Company',
+          preview1: 'Nous aimerions collaborer avec vous sur notre nouvelle campagne...',
+          sender2: 'Agence Marketing',
+          preview2: 'Offre de partenariat exclusive pour 6 mois...',
+          sender3: 'Forbes Magazine',
+          preview3: 'Invitation pour une interview sur votre succès...',
+        },
+        count: 'sur',
+      },
+      audience: {
+        title: 'Accès Audience',
+        messages: {
+          sender1: 'Ahmed Mohammed',
+          preview1: 'Votre contenu est incroyable! Comment avez-vous commencé?',
+          sender2: 'Nora Ali',
+          preview2: 'Merci pour les conseils dans la dernière vidéo 💕',
+          sender3: 'Khalid Saeed',
+          preview3: "Vous êtes une source d'inspiration pour moi!",
+        },
+        count: 'sur',
+      },
+      closeOnes: {
+        title: 'Accès Personnel',
+        messages: {
+          sender1: 'Maman ❤️',
+          preview1: "N'oublie pas le déjeuner de vendredi!",
+          sender2: 'Mon amie Mona',
+          preview2: 'Quand on se voit? Tu me manques!',
+          sender3: 'Mon mari',
+          preview3: "Je t'aime, ne sois pas en retard 💑",
+        },
+        count: 'sur',
+      },
+    },
+    stats: {
+      todayMessages: "Messages d'aujourd'hui",
+      importantMessages: 'Messages importants',
+      timeSaved: 'Temps économisé',
+      timeSavedValue: '3 heures',
+    },
+    organizedInbox: "Panneau de contrôle de",
+    ofMessages: 'messages',
+    footer: "Voici comment Sarah contrôle qui la contacte.",
+    tryNow: 'Prenez le Contrôle!',
+    timeAgo: {
+      minutes: 'il y a min',
+      hour: 'il y a 1 heure',
+      hours: 'il y a heures',
+    },
+  },
+  auth: {
+    login: 'Connexion',
+    signup: 'Inscription',
+    email: 'Email',
+    password: 'Mot de passe',
+    username: "Nom d'utilisateur",
+    displayName: "Nom d'affichage",
+    loginButton: 'Se connecter',
+    signupButton: 'Créer un compte',
+    noAccount: "Vous n'avez pas de compte?",
+    hasAccount: 'Vous avez déjà un compte?',
+    forgotPassword: 'Mot de passe oublié?',
+    or: 'ou',
+    errors: {
+      invalidEmail: 'Veuillez entrer une adresse email valide',
+      weakPassword: 'Le mot de passe doit contenir au moins 6 caractères',
+      userExists: 'Un compte avec cet email existe déjà',
+      invalidCredentials: 'Email ou mot de passe invalide',
+      generic: 'Une erreur est survenue. Veuillez réessayer.',
+    },
+  },
+  search: {
+    placeholder: 'Rechercher des utilisateurs...',
+    noResults: 'Aucun utilisateur trouvé',
+    searching: 'Recherche en cours...',
+  },
+};
