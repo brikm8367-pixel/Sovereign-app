@@ -23,14 +23,18 @@ export type ClassifyResult = {
   source: "ai" | "heuristic";
 };
 
+// Note: \b does not work for Arabic — use plain alternation without word boundaries.
 const WORK_PATTERNS = [
-  /\b(sponsor|sponsorship|deal|collab|collaboration|partnership|brand|campaign|paid|budget|contract|endorsement|رعاية|عرض|تعاون|ميزانية|عقد|صفقة|إعلان|ترويج)\b/i,
+  /sponsor|sponsorship|deal|collab|collaboration|partnership|brand|campaign|paid|budget|contract|endorsement/i,
+  /رعاية|عرض تعاون|عرض عمل|تعاون|ميزانية|عقد|صفقة|إعلان|ترويج|شراكة|اعلان|حملة/,
 ];
 const AUDIENCE_PATTERNS = [
-  /\b(love|fan|amazing|awesome|idol|follow|support|inspire|huge fan|معجب|أحبك|متابع|مذهل|رائع|ألهمتني|بحبك)\b/i,
+  /\b(love|fan|amazing|awesome|idol|follow|support|inspire|huge fan)\b/i,
+  /معجب|أحبك|بحبك|متابع من|مذهل|رائع|ألهمتني|ألهمتني|أحب محتواك|أتابعك/,
 ];
 const DIRECT_PATTERNS = [
-  /\b(personal|private|family|friend|خاص|شخصي|عائلة|صديق)\b/i,
+  /\b(personal|private|family|friend)\b/i,
+  /خاص|شخصي|عائلة|صديق|أخي|أختي/,
 ];
 
 function heuristicClassify(content: string, subject?: string | null): ClassifyResult {

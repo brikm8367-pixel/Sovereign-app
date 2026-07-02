@@ -9,6 +9,10 @@ import { requestAudit, sanitiseBody } from "./middlewares/security";
 
 const app: Express = express();
 
+// Trust the Replit / cloud reverse proxy so express-rate-limit
+// gets the real client IP from X-Forwarded-For.
+app.set("trust proxy", 1);
+
 // ── Security headers ──────────────────────────────────────────────
 app.use(
   helmet({
