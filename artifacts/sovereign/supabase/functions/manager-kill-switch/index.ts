@@ -71,6 +71,15 @@ Deno.serve(async (req) => {
           detail: 'تم سحب كل الصلاحيات فوراً',
         })),
       )
+
+      // Clear active_celebrity_id for every revoked manager so their
+      // dashboard no longer points to this celebrity.
+      const revokedIds = activeLinks.map((l: { manager_id: string }) => l.manager_id)
+      await admin
+        .from('profiles')
+        .update({ active_celebrity_id: null })
+        .in('id', revokedIds)
+        .eq('active_celebrity_id', user.id)
     }
 
     return json({ revoked: revokedCount ?? 0 }, 200)

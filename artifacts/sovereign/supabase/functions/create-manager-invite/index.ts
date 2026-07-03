@@ -56,7 +56,7 @@ Deno.serve(async (req) => {
 
     let code = codeGen()
     const token = tokenGen()
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString()
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString() // 15 minutes
 
     const { data: inserted, error: insErr } = await admin
       .from('manager_invitations')

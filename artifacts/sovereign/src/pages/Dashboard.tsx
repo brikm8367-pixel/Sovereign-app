@@ -25,6 +25,7 @@ import { decryptFromSender, isEncryptedMessage } from '@/utils/e2eManager';
 import RecipientFiltersManager from '@/components/messaging/RecipientFiltersManager';
 import StoriesRow from '@/components/messaging/StoriesRow';
 import { BusinessDeals } from '@/components/deals/BusinessDeals';
+import { CelebritySwitcher } from '@/components/manager/CelebritySwitcher';
 
 
 interface Profile {
@@ -40,7 +41,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { isOnline, canCall } = usePresence(user?.id);
-  const { role, managedCelebrityId } = useRole();
+  const { role, managedCelebrityId, managedCelebrities, switchCelebrity } = useRole();
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('directly_onboarded'));
 
   const getInitialTab = () => {
@@ -497,11 +498,21 @@ export default function Dashboard() {
               </div>
             )}
 
+            {/* Celebrity switcher — shown when manager handles 2+ celebrities */}
+            {role === 'manager' && managedCelebrities.length > 1 && (
+              <CelebritySwitcher
+                celebrities={managedCelebrities}
+                activeCelebId={managedCelebrityId}
+                onSwitch={switchCelebrity}
+              />
+            )}
+
             {/* Deal Cards — Business box (celebrity sees own, manager sees linked celebrity) */}
             {messageSearchQuery.length < 2 && (role === 'celebrity' || role === 'manager') && (
               <BusinessDeals
                 celebrityId={role === 'manager' ? managedCelebrityId : user?.id}
                 canManage={role === 'celebrity' || role === 'manager'}
+                userRole={role === 'manager' ? 'manager' : 'celebrity'}
               />
             )}
 

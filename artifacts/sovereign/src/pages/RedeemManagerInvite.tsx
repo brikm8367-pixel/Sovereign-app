@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { useRole } from '@/hooks/useRole';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
@@ -12,6 +13,7 @@ export default function RedeemManagerInvite() {
   const { token } = useParams();
   const { user, loading } = useAuth();
   const { isRTL } = useLanguage();
+  const { switchCelebrity } = useRole();
   const navigate = useNavigate();
   const [code, setCode] = useState('');
   const [joining, setJoining] = useState(false);
@@ -38,6 +40,10 @@ export default function RedeemManagerInvite() {
       return;
     }
     setDone(true);
+    // Auto-switch to the newly managed celebrity
+    if (data?.celebrity_id) {
+      await switchCelebrity(data.celebrity_id);
+    }
     toast.success(isRTL ? 'أصبحت وكيلاً الآن' : 'You are now a manager');
     setTimeout(() => navigate('/home'), 1200);
   };

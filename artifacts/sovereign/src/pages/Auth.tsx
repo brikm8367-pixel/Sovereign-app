@@ -31,6 +31,9 @@ export default function Auth() {
   const [error, setError] = useState('');
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
+  const [emailConfirmSent, setEmailConfirmSent] = useState(false);
+  const [needsEmailConfirm, setNeedsEmailConfirm] = useState(false);
+  const [resending, setResending] = useState(false);
   
   const { signIn, signUp, user, loading } = useAuth();
   const navigate = useNavigate();
@@ -61,10 +64,16 @@ export default function Auth() {
         }
         const { error: signInError } = await signIn(email, password);
         if (signInError) {
-          if (signInError.message.includes('Invalid login credentials')) {
-            setError('Your key is incorrect — try again.');
+          const msg = signInError.message.toLowerCase();
+          if (msg.includes('invalid login credentials') || msg.includes('invalid_credentials')) {
+            setError(isRTL ? 'كلمة المرور أو البريد غير صحيح.' : 'Email or password is incorrect.');
+          } else if (msg.includes('email not confirmed') || msg.includes('email_not_confirmed')) {
+            setNeedsEmailConfirm(true);
+            setError(isRTL ? 'يرجى تأكيد بريدك الإلكتروني أولاً.' : 'Please confirm your email first.');
+          } else if (msg.includes('rate') || msg.includes('too many')) {
+            setError(isRTL ? 'محاولات كثيرة — انتظر قليلاً.' : 'Too many attempts — please wait.');
           } else {
-            setError('Something didn\'t work — your messages are safe.');
+            setError(isRTL ? 'حدث خطأ — بياناتك آمنة.' : "Something didn't work — your messages are safe.");
           }
         }
       } else {
@@ -85,11 +94,17 @@ export default function Auth() {
         }
         const { error: signUpError } = await signUp(email, password, username, displayName);
         if (signUpError) {
-          if (signUpError.message.includes('already registered')) {
-            setError('Looks like you already have an account — sign in.');
+          if (signUpError.message.includes('already registered') || signUpError.message.includes('User already registered')) {
+            setError(isRTL ? 'يبدو أن لديك حساباً بالفعل — سجّل دخولك.' : 'Looks like you already have an account — sign in.');
+          } else if (signUpError.message.includes('rate')) {
+            setError(isRTL ? 'الرجاء الانتظار قليلاً ثم المحاولة مرة أخرى.' : 'Please wait a moment and try again.');
           } else {
-            setError('Something didn\'t work — your messages are safe.');
+            setError(isRTL ? 'حدث خطأ — بياناتك آمنة.' : "Something didn't work — your messages are safe.");
           }
+        } else {
+          // Supabase sends a confirmation email; show dedicated screen.
+          setEmailConfirmSent(true);
+          setError('');
         }
       }
     } catch {
@@ -97,6 +112,16 @@ export default function Auth() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const resendConfirmation = async () => {
+    if (!email.trim()) return;
+    setResending(true);
+    await supabase.auth.resend({ type: 'signup', email });
+    setResending(false);
+    setNeedsEmailConfirm(false);
+    setEmailConfirmSent(true);
+    setError('');
   };
 
   const handleForgotPassword = async () => {
@@ -123,6 +148,8 @@ export default function Auth() {
     setIsLogin(!isLogin);
     setIsForgotPassword(false);
     setResetSent(false);
+    setEmailConfirmSent(false);
+    setNeedsEmailConfirm(false);
     setError('');
     setEmail('');
     setPassword('');
@@ -140,6 +167,36 @@ export default function Auth() {
     );
   }
 
+  // ── Email confirmation screen (after sign-up or resend) ──
+  if (emailConfirmSent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/30 p-6">
+        <div className="w-full max-w-sm text-center space-y-5">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 mx-auto">
+            <span className="text-3xl">📬</span>
+          </div>
+          <div>
+            <h1 className="text-xl font-bold">{isRTL ? 'تحقّق من بريدك' : 'Check your email'}</h1>
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              {isRTL
+                ? `أرسلنا رابط التأكيد إلى ${email || 'بريدك الإلكتروني'} — انقر عليه لتفعيل حسابك.`
+                : `We sent a confirmation link to ${email || 'your email'} — click it to activate your account.`}
+            </p>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {isRTL ? 'لم يصلك البريد؟ تحقّق من مجلد Spam.' : "Didn't receive it? Check your spam folder."}
+          </p>
+          <button
+            onClick={() => { setEmailConfirmSent(false); setIsLogin(true); }}
+            className="text-sm text-primary hover:underline"
+          >
+            {isRTL ? 'العودة لتسجيل الدخول' : 'Back to sign in'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/30 p-4">
       <div className="w-full max-w-sm">
@@ -150,22 +207,37 @@ export default function Auth() {
           </div>
           <span className="text-2xl font-bold text-foreground">Sovereign</span>
           <p className="text-sm text-muted-foreground text-center max-w-[250px]">
-            Smart Communication
+            {isRTL ? 'صندوقك، قواعدك' : 'Your inbox, your rules'}
           </p>
         </div>
 
         {/* Card */}
         <div className="bg-card rounded-2xl p-6 border border-border shadow-lg">
           <h1 className="text-xl font-semibold text-center mb-1">
-            {isLogin ? 'Welcome back' : 'Start your journey'}
+            {isLogin
+              ? (isRTL ? 'مرحباً بعودتك' : 'Welcome back')
+              : (isRTL ? 'ابدأ رحلتك' : 'Start your journey')}
           </h1>
           <p className="text-xs text-muted-foreground text-center mb-6">
-            {isLogin ? 'Your messages are waiting — everything in its place.' : 'Your account is about to be ready.'}
+            {isLogin
+              ? (isRTL ? 'رسائلك بانتظارك — كل شيء في مكانه.' : 'Your messages are waiting — everything in its place.')
+              : (isRTL ? 'حسابك على وشك الاكتمال.' : 'Your account is almost ready.')}
           </p>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+            <div className="mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 space-y-2">
               <p className="text-sm text-destructive text-center">{error}</p>
+              {needsEmailConfirm && (
+                <button
+                  onClick={resendConfirmation}
+                  disabled={resending}
+                  className="w-full text-xs text-primary hover:underline flex items-center justify-center gap-1"
+                >
+                  {resending
+                    ? (isRTL ? 'جارٍ الإرسال...' : 'Sending...')
+                    : (isRTL ? 'إعادة إرسال رابط التأكيد' : 'Resend confirmation email')}
+                </button>
+              )}
             </div>
           )}
 
