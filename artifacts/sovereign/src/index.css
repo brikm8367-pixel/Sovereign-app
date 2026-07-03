@@ -341,3 +341,95 @@
   to { transform: rotate(360deg); }
 }
 
+/* ═══════════════════════════════════════════════
+   Native App Feel — PWA / iOS / Android
+   ═══════════════════════════════════════════════ */
+
+/* Full viewport — account for browser chrome */
+html, body {
+  height: 100%;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Safe area padding for iOS notch / home indicator */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Smooth momentum scroll on iOS */
+.overflow-y-auto,
+.overflow-y-scroll,
+[data-scroll] {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent rubber-band on fixed panels */
+#root {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+/* No text selection on chrome, buttons, nav — pure native feel */
+button,
+[role="button"],
+nav,
+header,
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Inputs keep normal selection */
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Faster touch response — no 300ms delay */
+* {
+  touch-action: manipulation;
+}
+
+/* Remove callout on long-press images */
+img {
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
+img[data-interactive] {
+  pointer-events: auto;
+}
+
+/* Bottom navigation safe area — stay above home indicator */
+.bottom-nav-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+/* Status bar spacer when running as PWA */
+@media all and (display-mode: standalone) {
+  .pwa-status-bar {
+    height: env(safe-area-inset-top);
+    background: hsl(var(--background));
+  }
+}
+
+/* Pull-to-refresh prevention */
+html {
+  overscroll-behavior-y: none;
+}
+
+/* Native-style focus ring */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+

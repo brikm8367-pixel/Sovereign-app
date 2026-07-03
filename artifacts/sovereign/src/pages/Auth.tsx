@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MessageSquare, Loader2, Eye, EyeOff, ShieldCheck } from 'lucide-react';
-import { lovable } from '@/integrations/lovable/index';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -298,7 +297,7 @@ export default function Auth() {
               const oauthRedirect = redirectTarget !== '/home'
                 ? `${window.location.origin}/?redirect=${encodeURIComponent(redirectTarget)}`
                 : window.location.origin;
-              const { error } = await lovable.auth.signInWithOAuth("google", { redirect_uri: oauthRedirect });
+              const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: oauthRedirect } });
               if (error) setError('Failed to sign in with Google');
               setIsLoading(false);
             }}
@@ -324,7 +323,7 @@ export default function Auth() {
               const oauthRedirect = redirectTarget !== '/home'
                 ? `${window.location.origin}/?redirect=${encodeURIComponent(redirectTarget)}`
                 : window.location.origin;
-              const { error } = await lovable.auth.signInWithOAuth("apple", { redirect_uri: oauthRedirect });
+              const { error } = await supabase.auth.signInWithOAuth({ provider: 'apple', options: { redirectTo: oauthRedirect } });
               if (error) setError('Failed to sign in with Apple');
               setIsLoading(false);
             }}

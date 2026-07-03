@@ -39,7 +39,7 @@ export default function BugBounty() {
             النطاق المقبول
           </h2>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• تطبيق الويب: directly-app.lovable.app</li>
+            <li>• تطبيق الويب: sovereign-app.replit.app</li>
             <li>• وظائف الخادم Edge Functions</li>
             <li>• ثغرات التشفير E2E</li>
             <li>• تجاوز قواعد الصناديق والتصنيف</li>

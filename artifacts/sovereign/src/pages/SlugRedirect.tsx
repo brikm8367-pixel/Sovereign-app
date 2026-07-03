@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 /**
  * Short custom-link resolver: /s/:slug -> /@username (send / deal page).
- * Keeps links short and shareable (e.g. sovereign-app.lovable.app/s/omar).
+ * Keeps links short and shareable (e.g. sovereign-app.replit.app/s/omar).
  */
 export default function SlugRedirect() {
   const { slug } = useParams<{ slug: string }>();
