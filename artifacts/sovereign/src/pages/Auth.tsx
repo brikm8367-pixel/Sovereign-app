@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/i18n/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,6 +37,7 @@ export default function Auth() {
   const [resending, setResending] = useState(false);
   
   const { signIn, signUp, user, loading } = useAuth();
+  const { isRTL } = useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 

@@ -5,3 +5,6 @@
 - [Deal Card 6-field structure](deal-card-fields.md) — fields: deal_type, budget_range, payment_structure, timeline, commitments[], pitch ≤300. Extra fields packed into details JSON (no schema migration); parse with try/catch.
 - [api-server security stack](api-server-security.md) — helmet + express-rate-limit (general 120/min, ai 20/min, strict 10/min) + sanitiseBody + requestAudit; mounted in app.ts before routes.
 - [zod in api-server](zod-import.md) — import from "zod" not "zod/v4"; must be in api-server dependencies directly.
+- [Multi-celebrity manager flow](multi-celebrity-flow.md) — useRole exports managedCelebrities+switchCelebrity; active_celebrity_id on profiles row; kill-switch clears it; RedeemManagerInvite auto-switches on redemption.
+- [Deal escalation flow](deal-escalation.md) — escalated_to_celebrity+celebrity_approval_status columns on deal_cards; manager sends deal to celebrity, celebrity approves/rejects/requests revision; logged to manager_activity_log.
+- [Auth email confirmation UX](auth-email-confirm.md) — Auth.tsx must import useLanguage for isRTL; after signUp success → emailConfirmSent screen; email_not_confirmed error → show resend button.
