@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "jogbYg4j7ccChcgY6rOkf"
+uri = "file://SOVEREIGN_TECH_REPORT.md"
+type = "text"
+title = "Sovereign — التقرير التقني الشامل"
