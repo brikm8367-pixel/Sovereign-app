@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { Clock, UserCog, Check, X, RefreshCw, ShieldOff, History } from 'lucide-react';
+import { Clock, UserCog, Check, X, RefreshCw, ShieldOff, History, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface LogRow {
   id: string;
@@ -14,10 +14,14 @@ interface LogRow {
 }
 
 const ACTION_META: Record<string, { ar: string; en: string; icon: typeof Check; tone: string }> = {
-  deal_accepted: { ar: 'قبِل عرض عمل', en: 'Accepted a deal', icon: Check, tone: 'text-emerald-600' },
-  deal_declined: { ar: 'رفض عرض عمل', en: 'Declined a deal', icon: X, tone: 'text-destructive' },
-  deal_countered: { ar: 'قدّم عرضاً مضاداً', en: 'Countered a deal', icon: RefreshCw, tone: 'text-blue-600' },
-  kill_switch: { ar: 'سُحبت صلاحياته (طوارئ)', en: 'Access revoked (emergency)', icon: ShieldOff, tone: 'text-amber-600' },
+  deal_accepted:   { ar: 'قبِل عرض عمل',              en: 'Accepted a deal',                  icon: Check,         tone: 'text-emerald-600' },
+  deal_declined:   { ar: 'رفض عرض عمل',               en: 'Declined a deal',                  icon: X,             tone: 'text-destructive' },
+  deal_countered:  { ar: 'قدّم عرضاً مضاداً',         en: 'Countered a deal',                 icon: RefreshCw,     tone: 'text-blue-600' },
+  deal_escalated:  { ar: 'أحال عرضاً للموافقة',       en: 'Forwarded deal for approval',      icon: Send,          tone: 'text-blue-500' },
+  deal_approved:   { ar: 'وافق المشهور على العرض',    en: 'Celebrity approved the deal',      icon: CheckCircle2,  tone: 'text-emerald-600' },
+  deal_rejected:   { ar: 'رفض المشهور العرض',          en: 'Celebrity rejected the deal',      icon: X,             tone: 'text-destructive' },
+  deal_revision:   { ar: 'طلب المشهور تعديل العرض',   en: 'Celebrity requested revisions',    icon: RefreshCw,     tone: 'text-amber-600' },
+  kill_switch:     { ar: 'سُحبت صلاحياته (طوارئ)',    en: 'Access revoked (emergency)',       icon: ShieldOff,     tone: 'text-amber-600' },
 };
 
 /** Read-only audit trail of manager actions — visible to the celebrity only. */
@@ -65,15 +69,19 @@ export function ManagerActivityLog() {
         {rows.map((r) => {
           const meta = ACTION_META[r.action];
           const Icon = meta?.icon ?? UserCog;
+          const isEscalationAction = ['deal_escalated', 'deal_approved', 'deal_rejected', 'deal_revision'].includes(r.action);
           return (
-            <div key={r.id} className="flex items-start gap-2.5 p-2.5 rounded-xl bg-muted/40">
+            <div key={r.id} className={`flex items-start gap-2.5 p-2.5 rounded-xl ${isEscalationAction ? 'bg-blue-500/5 border border-blue-500/10' : 'bg-muted/40'}`}>
               <Icon className={`h-4 w-4 mt-0.5 shrink-0 ${meta?.tone ?? 'text-muted-foreground'}`} />
               <div className="min-w-0 flex-1">
                 <p className="text-sm">
                   <span className="font-medium">{r.manager_name || (isRTL ? 'وكيل' : 'Manager')}</span>{' '}
                   {meta ? meta[isRTL ? 'ar' : 'en'] : r.action}
                 </p>
-                <p className="text-[11px] text-muted-foreground flex items-center gap-1">
+                {r.detail && (
+                  <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{r.detail}</p>
+                )}
+                <p className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
                   <Clock className="h-3 w-3" />{fmt(r.created_at)}
                 </p>
               </div>

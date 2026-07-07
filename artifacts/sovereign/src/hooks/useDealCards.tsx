@@ -20,6 +20,11 @@ export interface DealCard {
   sticky_until?: string | null;
   archived_at?: string | null;
   visible_to_celebrity?: boolean;
+  escalated_to_celebrity?: boolean;
+  celebrity_approval_status?: string | null;
+  escalation_note?: string | null;
+  celebrity_response_note?: string | null;
+  escalated_at?: string | null;
   sender_profile?: { id: string; display_name: string | null; username: string | null; avatar_url: string | null };
 }
 
@@ -34,9 +39,6 @@ function isSticky(d: DealCard) {
 function shouldShow(d: DealCard): boolean {
   if (d.archived_at) return false;
   if (d.visible_to_celebrity === false) return false;
-  if (d.status === 'pending') return true;
-  if (isGoldenActive(d)) return true;
-  if (isSticky(d)) return true;
   return true;
 }
 
@@ -82,6 +84,26 @@ export function useDealCards(celebrityId?: string | null) {
 
   useEffect(() => { load(); }, [load]);
 
+  // ── Realtime: re-fetch whenever any deal card for this celebrity changes ──
+  useEffect(() => {
+    const target = celebrityId ?? user?.id;
+    if (!target) return;
+
+    const channel = (supabase as any)
+      .channel(`deal-cards-${target}`)
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'deal_cards',
+        filter: `celebrity_id=eq.${target}`,
+      }, () => {
+        load();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [celebrityId, user, load]);
+
   const updateStatus = async (id: string, status: DealStatus) => {
     await (supabase as any).from('deal_cards').update({ status }).eq('id', id);
     load();
@@ -101,5 +123,10 @@ export function useDealCards(celebrityId?: string | null) {
     load();
   };
 
-  return { deals, loading, refresh: load, updateStatus, isGoldenActive, isSticky, archiveDeal, pinDeal };
+  /** Deals that need the celebrity's explicit approval (escalated by manager). */
+  const pendingApprovalCount = deals.filter(
+    d => d.escalated_to_celebrity && d.celebrity_approval_status === 'pending'
+  ).length;
+
+  return { deals, loading, refresh: load, updateStatus, isGoldenActive, isSticky, archiveDeal, pinDeal, pendingApprovalCount };
 }

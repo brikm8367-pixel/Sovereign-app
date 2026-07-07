@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { supabase } from '@/integrations/supabase/client';
-import { MessageSquare, Search, Loader2, User, Send, TrendingUp, Heart, PenSquare, Pin, X } from 'lucide-react';
+import { MessageSquare, Search, Loader2, User, Send, TrendingUp, Heart, PenSquare, Pin, X, Briefcase } from 'lucide-react';
 import { InboxSection, MessageComposer, ConversationView, DirectAccessManager, MessageCategory, Message } from '@/components/messaging';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -26,6 +26,7 @@ import RecipientFiltersManager from '@/components/messaging/RecipientFiltersMana
 import StoriesRow from '@/components/messaging/StoriesRow';
 import { BusinessDeals } from '@/components/deals/BusinessDeals';
 import { CelebritySwitcher } from '@/components/manager/CelebritySwitcher';
+import { useDealCards } from '@/hooks/useDealCards';
 
 
 interface Profile {
@@ -42,6 +43,8 @@ export default function Dashboard() {
   const [searchParams] = useSearchParams();
   const { isOnline, canCall } = usePresence(user?.id);
   const { role, managedCelebrityId, managedCelebrities, switchCelebrity } = useRole();
+  const dealCelebId = role === 'manager' ? managedCelebrityId : user?.id;
+  const { pendingApprovalCount } = useDealCards(dealCelebId);
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('directly_onboarded'));
 
   const getInitialTab = () => {
@@ -361,11 +364,19 @@ export default function Dashboard() {
 
       <header className="fixed top-0 right-0 left-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border safe-area-inset-top">
         <div className="max-w-lg mx-auto flex h-14 items-center justify-between px-4">
-          <p className="text-sm font-medium text-muted-foreground">
-            {unreadCount > 0
-              ? (isRTL ? `✨ ${unreadCount} جديد` : `✨ ${unreadCount} new`)
-              : (isRTL ? 'كل شيء في مكانه — تلقائيًا' : 'Everything in its place — automatically')}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium text-muted-foreground">
+              {unreadCount > 0
+                ? (isRTL ? `✨ ${unreadCount} جديد` : `✨ ${unreadCount} new`)
+                : (isRTL ? 'كل شيء في مكانه — تلقائيًا' : 'Everything in its place — automatically')}
+            </p>
+            {pendingApprovalCount > 0 && role === 'celebrity' && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full animate-pulse">
+                <Briefcase className="h-3 w-3" />
+                {pendingApprovalCount}
+              </span>
+            )}
+          </div>
           <div className="flex items-center gap-1">
             <LanguageSwitcher />
             <ThemeToggle />
