@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -8,10 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { User, Loader2, ArrowLeft, Lock, Sparkles, Send, Share2, Copy, MessageCircle, Camera, Shield } from 'lucide-react';
 import { toast } from 'sonner';
-import MessageComposer from '@/components/messaging/MessageComposer';
-import { DealCardComposer } from '@/components/deals/DealCardComposer';
 import { copyUsername, copyToClipboard } from '@/utils/sharing';
 import { shareCardAsImage } from '@/utils/shareCard';
+
+// Lazy-loaded: these dialogs are only rendered once the user opens them,
+// so keeping them out of the main PublicProfile chunk shrinks first-load JS.
+const MessageComposer = lazy(() => import('@/components/messaging/MessageComposer'));
+const DealCardComposer = lazy(() => import('@/components/deals/DealCardComposer').then(m => ({ default: m.DealCardComposer })));
 
 interface Profile {
   id: string;
@@ -317,20 +320,24 @@ export default function PublicProfile() {
       </div>
 
       {profile && (
-        <MessageComposer
-          isOpen={showComposer}
-          onClose={() => setShowComposer(false)}
-          recipient={profile}
-          onMessageSent={() => { setShowComposer(false); toast.success('Sent ✨'); }}
-        />
+        <Suspense fallback={null}>
+          <MessageComposer
+            isOpen={showComposer}
+            onClose={() => setShowComposer(false)}
+            recipient={profile}
+            onMessageSent={() => { setShowComposer(false); toast.success('Sent ✨'); }}
+          />
+        </Suspense>
       )}
       {profile && (
-        <DealCardComposer
-          open={showDealCard}
-          onOpenChange={setShowDealCard}
-          celebrityId={profile.id}
-          celebrityName={profile.username}
-        />
+        <Suspense fallback={null}>
+          <DealCardComposer
+            open={showDealCard}
+            onOpenChange={setShowDealCard}
+            celebrityId={profile.id}
+            celebrityName={profile.username}
+          />
+        </Suspense>
       )}
     </div>
   );

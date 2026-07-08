@@ -10,6 +10,7 @@ import { ThemeProvider } from "./hooks/useTheme";
 import { SplashScreen } from "./components/SplashScreen";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
+import { UpdatePrompt } from "./components/UpdatePrompt";
 
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -72,6 +73,7 @@ const App = () => {
               <Toaster />
               <Sonner />
               <PWAInstallPrompt />
+              <UpdatePrompt />
               
               {showSplash && isFirstVisit && (
                 <SplashScreen onComplete={() => setShowSplash(false)} />
