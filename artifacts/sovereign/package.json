@@ -72,6 +72,11 @@
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "vite": "catalog:",
+    "workbox-cacheable-response": "7.4.1",
+    "workbox-expiration": "7.4.1",
+    "workbox-precaching": "7.4.1",
+    "workbox-routing": "7.4.1",
+    "workbox-strategies": "7.4.1",
     "zod": "catalog:"
   },
   "dependencies": {

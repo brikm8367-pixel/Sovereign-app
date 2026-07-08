@@ -88,13 +88,10 @@ export default function Dashboard() {
 
   useEffect(() => { if (!loading && !user) navigate('/'); }, [user, loading, navigate]);
 
-  // Register push notifications on mount
+  // Register push notifications on mount (handles its own permission request)
   useEffect(() => {
     if (user) {
       registerPushNotifications();
-      if ('Notification' in window && Notification.permission === 'default') {
-        Notification.requestPermission();
-      }
     }
   }, [user]);
 

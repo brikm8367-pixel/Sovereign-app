@@ -8,3 +8,4 @@
 - [Multi-celebrity manager flow](multi-celebrity-flow.md) — useRole exports managedCelebrities+switchCelebrity; active_celebrity_id on profiles row; kill-switch clears it; RedeemManagerInvite auto-switches on redemption.
 - [Deal escalation flow](deal-escalation.md) — escalated_to_celebrity+celebrity_approval_status columns on deal_cards; manager sends deal to celebrity, celebrity approves/rejects/requests revision; logged to manager_activity_log.
 - [Auth email confirmation UX](auth-email-confirm.md) — Auth.tsx must import useLanguage for isRTL; after signUp success → emailConfirmSent screen; email_not_confirmed error → show resend button.
+- [PWA dual service worker conflict](pwa-dual-service-worker.md) — never register a 2nd SW at the same scope as vite-plugin-pwa's worker; merge push notifications into one injectManifest sw.ts instead.

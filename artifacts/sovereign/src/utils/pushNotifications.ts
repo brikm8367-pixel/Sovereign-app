@@ -26,8 +26,11 @@ export async function registerPushNotifications() {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
 
   try {
-    const registration = await navigator.serviceWorker.register('/sw-push.js', { scope: '/' });
-    await navigator.serviceWorker.ready;
+    // Use the single app service worker (registered once by vite-plugin-pwa).
+    // Do NOT register a second worker at the same scope — that causes two
+    // workers to fight for control, which previously broke offline caching
+    // and caused "not responding" crashes when the PWA was launched.
+    const registration = await navigator.serviceWorker.ready;
 
     const permission = await Notification.requestPermission();
     if (permission !== 'granted') return;

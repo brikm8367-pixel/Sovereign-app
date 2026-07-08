@@ -52,6 +52,8 @@ Sovereign lets public figures (celebrities) receive, manage, and respond to busi
 
 ## Gotchas
 
+- PWA service worker: only ONE service worker is registered for scope "/", built via `vite-plugin-pwa`'s `injectManifest` strategy from `src/sw.ts` (Workbox precaching + push notifications combined). Never register a second SW (e.g. a standalone `/sw-push.js`) at the same scope — two workers fighting over the same scope was the root cause of the "PWA not responding / closes itself" production crash.
+- `avatars` Supabase storage bucket is created via migration `20260708080000_avatars_bucket.sql` (bucket + RLS policies keyed on `name LIKE auth.uid()::text || '-%'` since files are stored at bucket root, not per-user folders). This migration must be run manually in the Supabase SQL editor (no DB credentials available from this environment).
 - Tailwind CSS v3: uses `postcss.config.cjs` + `tailwindcss` plugin, NOT `@tailwindcss/vite`. Do NOT add `@tailwindcss/vite` to vite.config.ts
 - `@import` in CSS must come BEFORE `@tailwind` directives (PostCSS rule)
 - `vaul` package must be installed for the Drawer shadcn/ui component
